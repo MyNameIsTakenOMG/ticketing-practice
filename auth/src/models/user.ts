@@ -18,27 +18,45 @@ interface UserDoc extends mongoose.Document {
   password: string;
 }
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+  {
+    // toJSON: {
+    //   transform(doc,ret){
+    //     delete ret.password
+    //     delete ret.__v
+    //     ret.id = ret._id
+    //     delete ret._id
+    //   }
+    // }
+  }
+);
 
-// do not use arrow functions here because the context of 'this' is entire file not the 
+//format JSON properties
+userSchema.methods.toJSON = function () {
+  const { __v, password, _id, ...user } = this.toObject();
+  user.id = _id;
+  return user;
+};
+
+// do not use arrow functions here because the context of 'this' is entire file not the
 // user document object just created
-userSchema.pre('save', async function(done){
-  if(this.isModified('password')){
+userSchema.pre('save', async function (done) {
+  if (this.isModified('password')) {
     const hashed = await Password.toHash(this.get('password'));
-    this.set('password', hashed)
+    this.set('password', hashed);
   }
   done();
-})
-
+});
 
 // new User({...}) is not supported by type-checking
 // have to set a static method with a user attributes interface parameter
