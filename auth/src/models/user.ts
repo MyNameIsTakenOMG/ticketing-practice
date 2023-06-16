@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Password } from '../services/password';
 
 // user attributes
 interface UserAttrs {
@@ -27,6 +28,17 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 });
+
+// do not use arrow functions here because the context of 'this' is entire file not the 
+// user document object just created
+userSchema.pre('save', async function(done){
+  if(this.isModified('password')){
+    const hashed = await Password.toHash(this.get('password'));
+    this.set('password', hashed)
+  }
+  done();
+})
+
 
 // new User({...}) is not supported by type-checking
 // have to set a static method with a user attributes interface parameter
