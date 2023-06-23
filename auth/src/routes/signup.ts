@@ -19,7 +19,7 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const errors = validationResult(req);
+    // const errors = validationResult(req);
 
     // scenario 1 : Invalid inputs
     // if (!errors.isEmpty()) {
