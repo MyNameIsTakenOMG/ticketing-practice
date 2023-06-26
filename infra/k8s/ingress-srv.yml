@@ -8,8 +8,8 @@ metadata:
     nginx.ingress.kubernetes.io/cors-allow-origin: '*'
 spec:
   rules:
-    - host: ticketing.dev
-      http:
+    # - host: ticketing.dev
+    - http: #
         paths:
           - pathType: Prefix
             path: /api/users/?(.*)
