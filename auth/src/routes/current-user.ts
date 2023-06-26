@@ -7,9 +7,11 @@ const router = express.Router();
 router.get(
   '/api/users/currentuser',
   currentUserMiddleware,
-  requireAuth,
+  // requireAuth,
   (req, res) => {
-    res.send({ currentUser: req.currentUser || null });
+    res.send({
+      currentUser: req.currentUser ? req.currentUser : null,
+    });
   }
 );
 
