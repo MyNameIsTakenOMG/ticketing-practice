@@ -4,19 +4,24 @@ import axios from 'axios';
 export default function signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState([]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     // console.log(email, password);
-    const response = await axios.post(
-      '/api/users/signup',
-      { email, password },
-      {
-        // baseURL: 'https://ticketing.dev',
-        baseURL: 'http://34.31.61.77', // make sure to send https, or cookie will not be set
-      }
-    );
-    console.log(response.data);
+    try {
+      const response = await axios.post(
+        '/api/users/signup',
+        { email, password },
+        {
+          // baseURL: 'https://ticketing.dev',
+          baseURL: 'http://34.31.61.77', // make sure to send https, or cookie will not be set
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      setErrors(error.response.data.errors);
+    }
   };
 
   return (
@@ -39,6 +44,15 @@ export default function signup() {
           className="form-control"
         />
       </div>
+      {errors.length > 0 && (
+        <div className="alert alert-danger">
+          <ul className="my-0">
+            {errors.map((err) => (
+              <li key={err.message}>{err.message}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <button className="btn btn-primary">sign up</button>
     </form>
   );
