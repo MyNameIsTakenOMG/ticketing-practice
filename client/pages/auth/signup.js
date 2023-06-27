@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import Router from 'next/router';
 import useRequest from '../../hooks/useRequest';
 
 export default function signup() {
@@ -8,8 +8,11 @@ export default function signup() {
   // const [errors, setErrors] = useState([]);
   const { doRequest, errors } = useRequest({
     url: 'http://34.31.61.77/api/users/signup',
-    method: 'POST',
+    method: 'post',
     body: { email, password },
+    onSuccess: () => {
+      Router.push('/');
+    },
   });
 
   const onSubmit = async (e) => {
@@ -28,7 +31,7 @@ export default function signup() {
     // } catch (error) {
     //   setErrors(error.response.data.errors);
     // }
-    doRequest();
+    await doRequest();
   };
 
   return (
