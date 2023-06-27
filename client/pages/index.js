@@ -7,7 +7,8 @@ export default function LandingPage({ currentUser }) {
   return <div>landing page</div>;
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req, res }) {
+  console.log('req headers: ', req.headers);
   console.log('I am on the server side');
 
   // directly communicate with another service is not recommended
@@ -21,7 +22,10 @@ export async function getServerSideProps() {
     // we are on the server side
     // request url should be FQDN
     const response = await axios.get(
-      'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser'
+      'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser',
+      {
+        headers: req.headers,
+      }
     );
     return {
       props: response.data,
