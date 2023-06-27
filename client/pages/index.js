@@ -5,7 +5,11 @@ import buildClient from '../api/build-client';
 export default function LandingPage({ currentUser }) {
   // console.log('I am in the component ' + color);
   console.log(currentUser);
-  return <div>landing page</div>;
+  return currentUser ? (
+    <h1>you are signed in</h1>
+  ) : (
+    <h1>you are not signed in</h1>
+  );
 }
 
 export async function getServerSideProps(context) {
