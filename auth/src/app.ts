@@ -6,8 +6,9 @@ import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/signup';
-import { erorrHandler } from './middleware/error-handler';
-import { NotFoundError } from './errors/not-found-error';
+// import { erorrHandler } from './middleware/error-handler';
+// import { NotFoundError } from './errors/not-found-error';
+import { erorrHandler, NotFoundError } from '@sftickets0110/common';
 
 const app = express();
 app.set('trust proxy', true);
