@@ -5,6 +5,7 @@ import cookieSession from 'cookie-session';
 // import { erorrHandler } from './middleware/error-handler';
 // import { NotFoundError } from './errors/not-found-error';
 import { erorrHandler, NotFoundError } from '@sftickets0110/common';
+import { createTicketRouter } from './routes/new';
 
 const app = express();
 app.set('trust proxy', true);
@@ -23,6 +24,7 @@ app.use(
 // });
 
 // routes
+app.use(createTicketRouter);
 
 //404 error
 app.all('*', async (req, res) => {
