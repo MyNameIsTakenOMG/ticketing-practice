@@ -4,7 +4,11 @@ import cookieSession from 'cookie-session';
 
 // import { erorrHandler } from './middleware/error-handler';
 // import { NotFoundError } from './errors/not-found-error';
-import { erorrHandler, NotFoundError } from '@sftickets0110/common';
+import {
+  currentUserMiddleware,
+  erorrHandler,
+  NotFoundError,
+} from '@sftickets0110/common';
 import { createTicketRouter } from './routes/new';
 
 const app = express();
@@ -22,6 +26,8 @@ app.use(
 // app.get('/api/users/currentuser', (req, res) => {
 //   res.send('hello world!');
 // });
+
+app.use(currentUserMiddleware);
 
 // routes
 app.use(createTicketRouter);

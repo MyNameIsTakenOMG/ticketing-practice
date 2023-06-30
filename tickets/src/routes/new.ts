@@ -1,8 +1,9 @@
+import { requireAuth } from '@sftickets0110/common';
 import express, { Request, Response } from 'express';
 
 const router = express.Router();
 
-router.post('/api/tickets', (req, res) => {
+router.post('/api/tickets', requireAuth, (req: Request, res: Response) => {
   res.sendStatus(200);
 });
 
