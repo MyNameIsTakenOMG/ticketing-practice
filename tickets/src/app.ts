@@ -10,6 +10,7 @@ import {
   NotFoundError,
 } from '@sftickets0110/common';
 import { createTicketRouter } from './routes/new';
+import { showTicketRouter } from './routes/show';
 
 const app = express();
 app.set('trust proxy', true);
@@ -31,6 +32,7 @@ app.use(currentUserMiddleware);
 
 // routes
 app.use(createTicketRouter);
+app.use(showTicketRouter);
 
 //404 error
 app.all('*', async (req, res) => {
