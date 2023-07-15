@@ -1,3 +1,4 @@
-[submodule "common"]
-	path = common
+[submodule "ticketing-practice-common"]
+	path = ticketing-practice-common
 	url = https://github.com/MyNameIsTakenOMG/ticketing-practice-common.git
+	branch = main
