@@ -9,11 +9,15 @@ stan.on('connect', async () => {
   console.log('publisher connected to nats server');
 
   const publisher = new TicketCreatedPublisher(stan);
-  await publisher.publish({
-    id: '123',
-    title: 'connect',
-    price: 20,
-  });
+  try {
+    await publisher.publish({
+      id: '123',
+      title: 'connect',
+      price: 20,
+    });
+  } catch (error) {
+    console.log(error);
+  }
   // nats only accepts strings or raw data
   // let data = JSON.stringify({
   //   id: '123',
