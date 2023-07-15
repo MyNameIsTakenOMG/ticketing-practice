@@ -1,5 +1,6 @@
 import nats, { Message, Stan } from 'node-nats-streaming';
 import { randomBytes } from 'crypto';
+import { TicketCreatedListener } from './events/ticket-created-listener';
 
 const stan = nats.connect('ticketing', randomBytes(4).toString('hex'), {
   url: 'http://localhost:4222',
@@ -46,58 +47,3 @@ process.on('SIGINT', () => {
 process.on('SIGTERM', () => {
   stan.close();
 });
-
-abstract class listener {
-  abstract subject: string;
-  abstract queueGroupName: string;
-  abstract onMessage(data: any, msg: Message): void;
-  protected ackWait = 5000;
-  private client: Stan;
-  constructor(client: Stan) {
-    this.client = client;
-  }
-
-  subscriptionOptions() {
-    return this.client
-      .subscriptionOptions()
-      .setDeliverAllAvailable()
-      .setManualAckMode(true)
-      .setAckWait(this.ackWait)
-      .setDurableName(this.queueGroupName);
-  }
-
-  listen() {
-    const subscription = this.client.subscribe(
-      this.subject,
-      this.queueGroupName,
-      this.subscriptionOptions()
-    );
-
-    subscription.on('message', (msg: Message) => {
-      console.log(
-        `received message: ${msg.getSubject().toString()}, ${
-          this.queueGroupName
-        }`
-      );
-
-      const parsedData = this.parseMessage(msg);
-      this.onMessage(parsedData, msg);
-    });
-  }
-
-  parseMessage(msg: Message) {
-    const data = msg.getData();
-    return typeof data === 'string'
-      ? JSON.parse(data)
-      : JSON.parse(data.toString('utf-8'));
-  }
-}
-
-class TicketCreatedListener extends listener {
-  subject: string = 'ticket:created';
-  queueGroupName: string = 'payments-service';
-  onMessage(data: any, msg: Message) {
-    console.log('event data: ', data);
-    msg.ack();
-  }
-}
