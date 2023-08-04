@@ -41,7 +41,7 @@ const orderSchema = new mongoose.Schema({
 });
 
 orderSchema.methods.toJSON = function () {
-  const { __v, _id, ...order } = this.toObject();
+  const { _id, ...order } = this.toObject();
   order.id = _id;
   return order;
 };

@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { Order, OrderStatus } from './order';
 
 interface TicketAttrs {
+  id: string;
   title: string;
   price: number;
 }
@@ -27,7 +28,7 @@ const ticketSchema = new mongoose.Schema({
 });
 
 ticketSchema.methods.toJSON = function () {
-  const { __v, _id, ...ticket } = this.toObject();
+  const { _id, ...ticket } = this.toObject();
   ticket.id = _id;
   return ticket;
 };
@@ -47,7 +48,11 @@ ticketSchema.methods.isReserved = async function () {
 };
 
 ticketSchema.statics.build = function (attrs: TicketAttrs) {
-  return new Ticket(attrs);
+  return new Ticket({
+    _id: attrs.id,
+    title: attrs.title,
+    price: attrs.price,
+  });
 };
 
 // model must be defined after schema, or it will cause error( such as static methods not found, etc.)
