@@ -46,10 +46,11 @@ ticketSchema.methods.isReserved = async function () {
   return !!existingOrder;
 };
 
-const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
-
 ticketSchema.statics.build = function (attrs: TicketAttrs) {
   return new Ticket(attrs);
 };
+
+// model must be defined after schema, or it will cause error( such as static methods not found, etc.)
+const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
 
 export { Ticket };

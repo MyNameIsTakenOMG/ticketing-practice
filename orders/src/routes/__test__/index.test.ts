@@ -41,5 +41,7 @@ it('should return a list of orders for the signed in user', async () => {
     .set('Cookie', user2)
     .expect(200);
 
+  // console.log('response._body: ', response.body);
+
   expect(response.body.length).toEqual(2);
 });
