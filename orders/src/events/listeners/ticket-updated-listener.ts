@@ -11,14 +11,15 @@ export class TicketUpdatedListener extends listener<TicketUpdatedEvent> {
     msg: Message
   ): Promise<void> {
     // throw new Error("Method not implemented.");
-    const { id, title, price, userId } = data;
-    const ticket = await Ticket.findById(id);
+    const { id, title, price, userId, version } = data;
+    const ticket = await Ticket.findByEvent({ id, version });
     if (!ticket) {
       throw new Error('ticket not found');
     }
     ticket.set({
       title: title,
       price: price,
+      // version: version,
     });
     await ticket.save();
     msg.ack();

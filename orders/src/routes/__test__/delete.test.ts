@@ -2,10 +2,12 @@ import { app } from '../../app';
 import { Ticket } from '../../models/ticket';
 import request from 'supertest';
 import { natsWrapper } from '../../nats-wrapper';
+import mongoose from 'mongoose';
 
 it('should successfully delete(cancel) the order', async () => {
   // create a ticket
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toString(),
     title: 'title',
     price: 20,
   });
@@ -34,6 +36,7 @@ it('should successfully delete(cancel) the order', async () => {
 it('should publish an order cancelled event', async () => {
   // create a ticket
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toString(),
     title: 'title',
     price: 20,
   });
