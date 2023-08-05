@@ -1,9 +1,11 @@
+import mongoose from 'mongoose';
 import { app } from '../../app';
 import { Ticket } from '../../models/ticket';
 import request from 'supertest';
 
 const buildTicket = async () => {
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toString(),
     title: 'Ticket',
     price: 20,
   });
@@ -40,6 +42,8 @@ it('should return a list of orders for the signed in user', async () => {
     .get('/api/orders')
     .set('Cookie', user2)
     .expect(200);
+
+  // console.log('response._body: ', response.body);
 
   expect(response.body.length).toEqual(2);
 });

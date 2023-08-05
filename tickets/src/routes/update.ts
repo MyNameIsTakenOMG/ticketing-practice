@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { Ticket } from '../models/ticket';
 import {
+  BadRequestError,
   NotAuthorizedError,
   NotFoundError,
   requireAuth,
@@ -32,6 +33,10 @@ router.put(
       throw new NotAuthorizedError();
     }
 
+    if (ticket.orderId) {
+      throw new BadRequestError('ticket is reserved for order');
+    }
+
     ticket.set({
       title: req.body.title,
       price: req.body.price,
@@ -43,6 +48,7 @@ router.put(
       userId: ticket.userId,
       title: ticket.title,
       price: ticket.price,
+      version: ticket.version,
     });
 
     res.send(ticket);

@@ -1,9 +1,11 @@
+import mongoose from 'mongoose';
 import { app } from '../../app';
 import { Ticket } from '../../models/ticket';
 import request from 'supertest';
 
 it('should return the order', async () => {
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toString(),
     title: 'title',
     price: 10,
   });
@@ -27,6 +29,7 @@ it('should return the order', async () => {
 });
 it('should return an error if trying fetching not owned order', async () => {
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toString(),
     title: 'title',
     price: 10,
   });
