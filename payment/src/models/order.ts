@@ -9,12 +9,14 @@ interface OrderAttrs {
   userId: string;
   status: OrderStatus;
 }
+
 interface OrderDoc extends mongoose.Document {
-  version: number;
-  price: number;
   userId: string;
   status: OrderStatus;
+  version: number;
+  price: number;
 }
+
 interface OrderModel extends mongoose.Model<OrderDoc> {
   build(attrs: OrderAttrs): OrderDoc;
 }
@@ -34,14 +36,14 @@ const orderSchema = new mongoose.Schema({
   },
 });
 
-orderSchema.set('versionKey', 'version');
-orderSchema.plugin(updateIfCurrentPlugin);
-
 orderSchema.methods.toJSON = function () {
-  const { _id, order } = this.toObject();
+  const { _id, ...order } = this.toObject();
   order.id = _id;
   return order;
 };
+
+orderSchema.plugin(updateIfCurrentPlugin);
+orderSchema.set('versionKey', 'version');
 
 orderSchema.statics.build = function (attrs: OrderAttrs) {
   return new Order({
