@@ -9,6 +9,7 @@ import {
   erorrHandler,
   NotFoundError,
 } from '@sftickets0110/common';
+import { createChargeRouter } from './routes/new';
 
 const app = express();
 app.set('trust proxy', true);
@@ -29,6 +30,7 @@ app.use(
 app.use(currentUserMiddleware);
 
 // routes
+app.use(createChargeRouter);
 
 //404 error
 app.all('*', async (req, res) => {
