@@ -108,5 +108,5 @@ it('should create a payment record after making a payment', async () => {
   const payment = await Payment.findOne({
     orderId: order.id,
   });
-  expect(payment).toBeDefined();
+  expect(payment).not.toBeNull();
 });
