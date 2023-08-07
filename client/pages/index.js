@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import buildClient from '../api/build-client';
+import Link from 'next/link';
 
 export default function LandingPage({ currentUser, tickets }) {
   // console.log('I am in the component ' + color);
@@ -26,6 +27,9 @@ export default function LandingPage({ currentUser, tickets }) {
             <tr key={t.id}>
               <td>{t.title}</td>
               <td>{t.price}</td>
+              <td>
+                <Link href={`/tickets/${t.id}`}>view</Link>
+              </td>
             </tr>
           ))}
         </tbody>
