@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import useRequest from '../../hooks/useRequest';
+import Router from 'next/router';
 
 export default function OrderShow({ order, currentUser }) {
   const [timeLeft, setTimeLeft] = useState(0);
@@ -11,7 +12,7 @@ export default function OrderShow({ order, currentUser }) {
     },
     onSuccess: (payment) => {
       console.log(payment);
-      Router.push(`/orders/${order.id}`);
+      Router.push('/orders');
     },
     url: 'http://34.31.61.77/api/payment',
   });
