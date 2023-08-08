@@ -1,7 +1,7 @@
 import 'express-async-errors';
 import mongoose from 'mongoose';
 import { app } from './app';
-
+//
 const start = async () => {
   if (!process.env.JWT_SECRET) {
     throw new Error('JWT secret is required');
