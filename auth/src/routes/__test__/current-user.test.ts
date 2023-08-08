@@ -22,5 +22,5 @@ it('resonses with details of current user', async () => {
 
 it('returns with null if not authenticated', async () => {
   const response = await request(app).get('/api/users/currentuser').expect(200);
-  expect(response.body.currentuser).toEqual(null);
+  expect(response.body.currentUser).toEqual(null);
 });
