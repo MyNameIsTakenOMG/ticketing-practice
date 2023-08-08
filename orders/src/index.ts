@@ -8,6 +8,8 @@ import { ExpirationCompletedListener } from './events/listeners/expiration-compl
 import { PaymentCreatedListener } from './events/listeners/payment-created-listener';
 
 const start = async () => {
+  console.log('starting...');
+
   if (!process.env.JWT_SECRET) {
     throw new Error('JWT secret is required');
   }
